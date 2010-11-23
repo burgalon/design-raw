@@ -1,0 +1,18 @@
+{% extends pack.base.template %}
+{% load markup %}
+{% load utils %}
+
+{% block main %}
+<h2>{{ page.name }}</h2>
+<div class="description">
+    {{ page.dic.description|textile }}
+</div>
+<div class="catalog">
+	{% for i in items %}
+    <div>
+    <h3 class="arrow">{{ i.name }} <span class="sub-title">{{ i.dic.sub_title }}</span></h3>
+    <a class="item-thumb" href="{{i.url}}">{{ i|render_thumb:"600x180" }}</a>
+    </div>
+	{% endfor %}
+</div>
+{% endblock %}

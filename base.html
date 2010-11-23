@@ -1,0 +1,51 @@
+{% extends "site/base.html" %}
+{% load utils %}
+
+{% block head %}
+{{ block.super }}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"></script>
+{% if files.logo %}
+<style type="text/css">
+	#content .logo a {background: url({{ files.logo|thumb:"190x100" }} ) no-repeat; width: 190px; height: 100px;}
+</style>
+{% endif %}
+{% endblock %}
+
+{% block logo %}
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+<div class="span-5 sidebar">
+	<h1 class="logo">
+		<a href="{{ portfolio.url }}" title="{{ dic.moto }}" class="span-6 last">
+			<span>{{  portfolio.title }}</span>
+		</a>
+	</h1>
+
+	<div class="telephone">{{ dic.telephone }}</div>
+	<div class="email">{{ dic.email|obfuscate }}</div>
+	<div class="span-5 last navigation">
+		{% for i in portfolio.pages_navigation %}
+		<div class="navigation-group span-5 last navigation-{{ forloop.counter }} navigation-{{ i.slug_name }} navigation-{{ i.template }}">
+			{% if i.pages|length > 1 %}<span class="{% if page = i %} active{% endif %}">{{ i.name }}</span>
+			{% else %}<a class="{% if page = i %} active{% endif %}" href="{{ i.url }}">{{ i.name }}</a>
+			{% endif %}
+		</div>
+		<div class="span-5 last sub-navigation sub-navigation-{{ forloop.counter }} sub-navigation-{{ i.slug_name }} sub-navigation-{{ i.template }}">
+			{% for x in i.pages %}
+			<a href="{{ x.url }}"
+			   class="{% ifequal page x %}active{% endifequal %} subnav-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
+			   title="{{ x.sub_title }}">{{ x.name }}</a>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+<div id="main" class="span-18 prepend-1 last">
+	{% block main %}
+	{% endblock %}
+</div>
+{% endblock %}
